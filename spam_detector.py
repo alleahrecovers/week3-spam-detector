@@ -167,3 +167,24 @@ for item in tricky_emails:
     print("\nEmail:", email)
     print("Actual Category:", item["actual_label"])
     print("Predicted Category:", predicted_label)
+
+
+# Investigate how small changes to existing emails affect predictions
+print("\nData Leakage Investigation:")
+
+variation_emails = [
+    "CONGRATULATIONS! You won $5000! Claim your prize NOW!!!",
+    "CONGRATULATIONS! You won $5000! Claim your prize now.",
+    "Hi, can we schedule a meeting for tomorrow?",
+    "Hi, can we schedule a meeting for tomorrow!!!"
+]
+
+for email in variation_emails:
+    features = np.array([extract_features(email)])
+
+    prediction = model.predict(features)[0]
+
+    predicted_label = "Spam" if prediction == 1 else "Legitimate"
+
+    print("\nEmail:", email)
+    print("Predicted Category:", predicted_label)
