@@ -135,3 +135,35 @@ importance = importance.sort_values(
 
 print("\nFeature Importance:")
 print(importance)
+
+
+# Test three emails designed to fool the classifier
+tricky_emails = [
+    {
+        "email": "URGENT! Your project report is ready. Please review it today!",
+        "actual_label": "Legitimate"
+    },
+    {
+        "email": "Hi, you have been selected to receive a free cash prize. Visit www.fake-prize.com",
+        "actual_label": "Spam"
+    },
+    {
+        "email": "Hello, please act now and review the updated meeting schedule.",
+        "actual_label": "Legitimate"
+    }
+]
+
+print("\nTesting Emails Designed to Fool the Classifier:")
+
+for item in tricky_emails:
+    email = item["email"]
+
+    features = np.array([extract_features(email)])
+
+    prediction = model.predict(features)[0]
+
+    predicted_label = "Spam" if prediction == 1 else "Legitimate"
+
+    print("\nEmail:", email)
+    print("Actual Category:", item["actual_label"])
+    print("Predicted Category:", predicted_label)
